@@ -12,7 +12,7 @@ class Student:
         self.finished_courses.append(course_name)   
 
 
-    def _ave_rate_hw(self, grades):
+    def _avg_rate_hw(self, grades):
         avg_grade=0
         count=0
         for grade in self.grades.values():
@@ -35,8 +35,14 @@ class Student:
 
     def __str__(self):
         res=f'Имя: {self.name}\nФамилия: {self.surname}\nКурсы в процессе обучения: {self.courses_in_progress}\n\
-Завершенные курсы: {self.finished_courses}\nСредняя оценка за домашние задания: {self._ave_rate_hw(self.grades)}'
+Завершенные курсы: {self.finished_courses}\nСредняя оценка за домашние задания: {self._avg_rate_hw(self.grades)}'
         return res
+
+    def __gt__(self, other):
+        if not isinstance(other, Student):
+            print('Not a Student') 
+            return
+        return self._avg_rate_hw(self.grades) > other._avg_rate_hw(other.grades)
  
      
 class Mentor:
@@ -60,6 +66,15 @@ class Lecturer(Mentor):
                 count+=1
                 res=avg_grade/count
         return res     
+
+
+    def __lt__(self, other):
+        if not isinstance(other, Lecturer):
+            print('Not a Lecturer') 
+            return
+        return self._avg_rate(self.grades) < other._avg_rate(self.grades)
+
+
 
     def __str__(self):
         res=f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self._avg_rate(self.grades)}'
@@ -87,7 +102,8 @@ student_1.courses_in_progress += ['Python']
 student_1.finished_courses += ['Git']
 
 student_2 = Student('Liza', 'Loy', 'female')
-student_2.courses_in_progress += ['Python', 'Git']
+student_2.courses_in_progress += ['Python']
+student_2.courses_in_progress += ['Git']
 student_2.finished_courses += ['English']
 
 lecturer_1=Lecturer('Ivan', 'Ivanov')
@@ -101,7 +117,7 @@ student_2.rate_lecturer(lecturer_1, 'Git', 8)
 
 student_2.rate_lecturer(lecturer_2, 'Python', 10)
 student_2.rate_lecturer(lecturer_2, 'Git', 10)
-student_1.rate_lecturer(lecturer_2, 'Python', 8)
+student_1.rate_lecturer(lecturer_2, 'Python', 10)
 
 reviewer_1=Reviewer('Sergey', 'Sergeev')
 reviewer_1.courses_attached=['English', 'Git', 'Python']
@@ -122,3 +138,7 @@ print(lecturer_2)
 
 print(reviewer_1)
 print(reviewer_2)
+
+print(student_1.__gt__(student_2))
+print(lecturer_1.__lt__(lecturer_2))
+
