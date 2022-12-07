@@ -16,8 +16,23 @@ def avg_hw (students):
                          
     return round(sum_hw/len(students), 2)
     
-
 print(avg_hw(student_list))
 
 
+lecturer_list=[{'name':'Иван', 'surname':'Иванов', 'Python':[8, 9,9,10,9]}, 
+{'name':'Василий', 'surname':'Васильев', 'Python':[10,10,9]},
+{'name':'Петр', 'surname':'Петров', 'Python':[8,10,10,9,10]}, 
+{'name':'Виктор', 'surname':'Викторов', 'Python':[10,10,10,7,8]}]
 
+def avg_lecturer(lecturers, course):
+    sum_avg_rate = 0
+    
+    for lecturer in lecturers:
+        for key, value in lecturer.items():
+            if course == key:
+                sum_avg_rate += sum(lecturer[course]) / len(lecturer[course])
+                
+    return round(sum_avg_rate/len(lecturers), 2)
+    
+
+print(avg_lecturer(lecturer_list, 'Python'))
